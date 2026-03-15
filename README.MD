@@ -20,7 +20,7 @@ Add dependency in `src-tauri/Cargo.toml`:
 
 ```toml
 [dependencies]
-tauri-plugin-apple-iap = "0.1"
+tauri-plugin-apple-iap = "1"
 ```
 
 Or use a Git/path dependency in a monorepo setup:
@@ -122,6 +122,7 @@ export async function currentEntitlements(productIds: string[] = []) {
 
 ## Notes
 
+- This plugin was fully developed with the help of AI.
 - This plugin is focused on StoreKit 2 for iOS only.
 - It returns verified transaction JWS payloads so your backend can validate purchases with the App Store Server API.
 
