@@ -1,6 +1,6 @@
 # tauri-plugin-apple-iap
 
-Native Apple In-App Purchase plugin for Tauri iOS applications.
+Native Apple In-App Purchase plugin for Tauri Apple applications.
 
 `tauri-plugin-apple-iap` provides direct access to StoreKit 2 product loading, purchases, transaction finishing, App Store sync, and current entitlements.
 
@@ -8,7 +8,7 @@ Native Apple In-App Purchase plugin for Tauri iOS applications.
 | -------- | --------- |
 | Linux    | -         |
 | Windows  | -         |
-| macOS    | -         |
+| macOS    | ✓         |
 | Android  | -         |
 | iOS      | ✓         |
 
@@ -70,9 +70,10 @@ Add plugin permissions to your capability file, for example `src-tauri/capabilit
 - `allow-sync-purchases`
 - `allow-current-entitlements`
 
-### 3. iOS requirements
+### 3. Apple platform requirements
 
 - Minimum iOS version: `15.0`
+- Minimum macOS version: `12.0`
 - The app must have valid In-App Purchase products configured in App Store Connect.
 - Use Apple Development / Distribution signing as appropriate for device testing or App Store uploads.
 
@@ -123,7 +124,7 @@ export async function currentEntitlements(productIds: string[] = []) {
 ## Notes
 
 - This plugin was fully developed with the help of AI.
-- This plugin is focused on StoreKit 2 for iOS only.
+- This plugin is focused on StoreKit 2 for iOS and macOS only.
 - It returns verified transaction JWS payloads so your backend can validate purchases with the App Store Server API.
 
 ## License
