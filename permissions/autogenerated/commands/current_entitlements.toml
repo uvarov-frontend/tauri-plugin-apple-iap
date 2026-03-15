@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-current-entitlements"
+description = "Enables the current_entitlements command without any pre-configured scope."
+commands.allow = ["current_entitlements"]
+
+[[permission]]
+identifier = "deny-current-entitlements"
+description = "Denies the current_entitlements command without any pre-configured scope."
+commands.deny = ["current_entitlements"]

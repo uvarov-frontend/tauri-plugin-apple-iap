@@ -1,0 +1,21 @@
+# Rust
+/target
+/Cargo.lock
+
+# Android / Gradle
+/android/.gradle
+/android/build
+/android/local.properties
+
+# iOS / SwiftPM / Xcode
+/ios/.build
+/ios/.swiftpm
+/ios/Package.resolved
+**/xcuserdata
+**/*.xcuserstate
+
+# IDE / OS
+.DS_Store
+.idea
+*.iml
+.vscode
