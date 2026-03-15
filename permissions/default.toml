@@ -1,0 +1,9 @@
+[default]
+description = "Default permissions for the plugin"
+permissions = [
+  "allow-list-products",
+  "allow-purchase-product",
+  "allow-finish-transaction",
+  "allow-sync-purchases",
+  "allow-current-entitlements",
+]

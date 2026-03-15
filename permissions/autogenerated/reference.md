@@ -1,3 +1,15 @@
+## Default Permission
+
+Default permissions for the plugin
+
+#### This default permission set includes the following:
+
+- `allow-list-products`
+- `allow-purchase-product`
+- `allow-finish-transaction`
+- `allow-sync-purchases`
+- `allow-current-entitlements`
+
 ## Permission Table
 
 <table>

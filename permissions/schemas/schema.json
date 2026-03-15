@@ -353,6 +353,12 @@
           "type": "string",
           "const": "deny-sync-purchases",
           "markdownDescription": "Denies the sync_purchases command without any pre-configured scope."
+        },
+        {
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`",
+          "type": "string",
+          "const": "default",
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`"
         }
       ]
     }

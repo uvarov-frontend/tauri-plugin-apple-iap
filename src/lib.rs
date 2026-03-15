@@ -3,6 +3,7 @@ use tauri::{
     Runtime,
 };
 
+#[cfg(target_os = "macos")]
 mod models;
 
 #[cfg(target_os = "macos")]
