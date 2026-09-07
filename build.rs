@@ -7,6 +7,56 @@ const COMMANDS: &[&str] = &[
 ];
 
 #[cfg(target_os = "macos")]
+fn macos_swift_runtime_paths() -> Vec<std::path::PathBuf> {
+    let swift_binary = std::process::Command::new("xcrun")
+        .args(["--find", "swift"])
+        .output()
+        .ok()
+        .filter(|output| output.status.success())
+        .map(|output| String::from_utf8_lossy(&output.stdout).trim().to_string())
+        .filter(|path| !path.is_empty())
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|| std::path::PathBuf::from("/usr/bin/swift"));
+    let mut paths = Vec::new();
+
+    if let Some(toolchain_usr_dir) = swift_binary.parent().and_then(std::path::Path::parent) {
+        let toolchain_runtime = toolchain_usr_dir.join("lib").join("swift").join("macosx");
+        if toolchain_runtime.exists() {
+            paths.push(toolchain_runtime);
+        }
+    }
+
+    let system_runtime = std::path::PathBuf::from("/usr/lib/swift");
+    if system_runtime.exists() {
+        paths.push(system_runtime);
+    }
+
+    paths.sort();
+    paths.dedup();
+    paths
+}
+
+#[cfg(target_os = "macos")]
+fn emit_macos_swift_runtime_metadata() {
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("macos") {
+        return;
+    }
+
+    let paths = macos_swift_runtime_paths();
+    if paths.is_empty() {
+        return;
+    }
+
+    let encoded = paths
+        .iter()
+        .map(|path| path.display().to_string())
+        .collect::<Vec<_>>()
+        .join(";");
+
+    println!("cargo:swift_runtime_paths={encoded}");
+}
+
+#[cfg(target_os = "macos")]
 fn link_macos_package() {
     use std::path::PathBuf;
 
@@ -32,6 +82,9 @@ fn link_macos_package() {
 }
 
 fn main() {
+    #[cfg(target_os = "macos")]
+    emit_macos_swift_runtime_metadata();
+
     #[cfg(target_os = "macos")]
     link_macos_package();
 
