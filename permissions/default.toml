@@ -6,4 +6,5 @@ permissions = [
   "allow-finish-transaction",
   "allow-sync-purchases",
   "allow-current-entitlements",
+  "allow-show-store-product",
 ]

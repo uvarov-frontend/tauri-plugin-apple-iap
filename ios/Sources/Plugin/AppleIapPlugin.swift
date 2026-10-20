@@ -1,6 +1,7 @@
 import Foundation
 import StoreKit
 import Tauri
+import UIKit
 
 private struct ListProductsArgs: Decodable {
   let productIds: [String]
@@ -17,6 +18,10 @@ private struct FinishTransactionArgs: Decodable {
 
 private struct CurrentEntitlementsArgs: Decodable {
   let productIds: [String]
+}
+
+private struct ShowStoreProductArgs: Decodable {
+  let appId: String
 }
 
 struct AppleIapProductPayload: Encodable {
@@ -300,6 +305,68 @@ class AppleIapPlugin: Plugin {
         invoke.reject(error.localizedDescription)
       }
     }
+  }
+
+  @objc public func showStoreProduct(_ invoke: Invoke) {
+    let args: ShowStoreProductArgs
+    do {
+      args = try invoke.parseArgs(ShowStoreProductArgs.self)
+    } catch {
+      invoke.reject(error.localizedDescription)
+      return
+    }
+
+    guard let appId = UInt64(args.appId.trimmingCharacters(in: .whitespacesAndNewlines)), appId > 0 else {
+      invoke.reject("appId must be a numeric App Store id")
+      return
+    }
+
+    DispatchQueue.main.async {
+      // A second call while the sheet is open must not stack another one.
+      if self.topViewController() is SKStoreProductViewController {
+        invoke.resolve()
+        return
+      }
+      let controller = SKStoreProductViewController()
+      controller.delegate = self
+      controller.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(value: appId)]) { loaded, error in
+        DispatchQueue.main.async {
+          if let error = error {
+            invoke.reject(error.localizedDescription)
+            return
+          }
+          guard loaded else {
+            invoke.reject("App Store product failed to load")
+            return
+          }
+          // UIKit silently skips presenting from a controller that is off-window or being dismissed and never calls the
+          // completion, which would leave the invoke unanswered: reject instead so the caller can open the store link.
+          guard let presenter = self.topViewController(), presenter.viewIfLoaded?.window != nil, !presenter.isBeingDismissed else {
+            invoke.reject("No view controller to present the App Store sheet")
+            return
+          }
+          presenter.present(controller, animated: true) {
+            invoke.resolve()
+          }
+        }
+      }
+    }
+  }
+
+  @MainActor
+  private func topViewController() -> UIViewController? {
+    var top = manager.viewController
+    while let presented = top?.presentedViewController {
+      top = presented
+    }
+    return top
+  }
+}
+
+extension AppleIapPlugin: @preconcurrency SKStoreProductViewControllerDelegate {
+  @MainActor
+  func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+    viewController.dismiss(animated: true)
   }
 }
 

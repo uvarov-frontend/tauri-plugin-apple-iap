@@ -9,6 +9,7 @@ Default permissions for the plugin
 - `allow-finish-transaction`
 - `allow-sync-purchases`
 - `allow-current-entitlements`
+- `allow-show-store-product`
 
 ## Permission Table
 
@@ -119,6 +120,32 @@ Enables the purchase_product command without any pre-configured scope.
 <td>
 
 Denies the purchase_product command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`apple-iap:allow-show-store-product`
+
+</td>
+<td>
+
+Enables the show_store_product command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`apple-iap:deny-show-store-product`
+
+</td>
+<td>
+
+Denies the show_store_product command without any pre-configured scope.
 
 </td>
 </tr>

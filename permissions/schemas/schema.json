@@ -343,6 +343,18 @@
           "markdownDescription": "Denies the purchase_product command without any pre-configured scope."
         },
         {
+          "description": "Enables the show_store_product command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-show-store-product",
+          "markdownDescription": "Enables the show_store_product command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the show_store_product command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-show-store-product",
+          "markdownDescription": "Denies the show_store_product command without any pre-configured scope."
+        },
+        {
           "description": "Enables the sync_purchases command without any pre-configured scope.",
           "type": "string",
           "const": "allow-sync-purchases",
@@ -355,10 +367,10 @@
           "markdownDescription": "Denies the sync_purchases command without any pre-configured scope."
         },
         {
-          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`",
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`\n- `allow-show-store-product`",
           "type": "string",
           "const": "default",
-          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`"
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-list-products`\n- `allow-purchase-product`\n- `allow-finish-transaction`\n- `allow-sync-purchases`\n- `allow-current-entitlements`\n- `allow-show-store-product`"
         }
       ]
     }

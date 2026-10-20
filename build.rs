@@ -4,6 +4,7 @@ const COMMANDS: &[&str] = &[
     "finish_transaction",
     "sync_purchases",
     "current_entitlements",
+    "show_store_product",
 ];
 
 #[cfg(target_os = "macos")]

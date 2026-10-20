@@ -12,6 +12,13 @@ mod macos;
 #[cfg(target_os = "ios")]
 tauri::ios_plugin_binding!(init_plugin_apple_iap);
 
+/// The App Store product sheet exists only on iOS; other platforms reject the call.
+#[cfg(not(target_os = "ios"))]
+#[tauri::command]
+fn show_store_product() -> Result<(), String> {
+    Err("unsupported".into())
+}
+
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
     #[allow(unused_mut)]
     let mut builder = Builder::new("apple-iap");
@@ -23,8 +30,14 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
             macos::purchase_product,
             macos::finish_transaction,
             macos::sync_purchases,
-            macos::current_entitlements
+            macos::current_entitlements,
+            show_store_product
         ]);
+    }
+
+    #[cfg(not(any(target_os = "macos", target_os = "ios")))]
+    {
+        builder = builder.invoke_handler(tauri::generate_handler![show_store_product]);
     }
 
     builder

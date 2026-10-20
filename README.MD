@@ -69,6 +69,7 @@ Add plugin permissions to your capability file, for example `src-tauri/capabilit
 - `allow-finish-transaction`
 - `allow-sync-purchases`
 - `allow-current-entitlements`
+- `allow-show-store-product`
 
 ### 3. Apple platform requirements
 
@@ -106,6 +107,10 @@ export async function syncPurchases() {
 export async function currentEntitlements(productIds: string[] = []) {
   return invoke("plugin:apple-iap|current_entitlements", { productIds });
 }
+
+export async function showStoreProduct(appId: string) {
+  return invoke("plugin:apple-iap|show_store_product", { appId });
+}
 ```
 
 ## Command contracts
@@ -120,6 +125,9 @@ export async function currentEntitlements(productIds: string[] = []) {
   - args: none
 - `plugin:apple-iap|current_entitlements`
   - args: `{ productIds?: string[] }`
+- `plugin:apple-iap|show_store_product`
+  - args: `{ appId: string }` (numeric App Store id, e.g. `"1234567890"`)
+  - iOS only: presents the App Store product sheet (`SKStoreProductViewController`) over the app and resolves once it is shown; rejects if the product fails to load. Other platforms reject with `"unsupported"`.
 
 ## Notes
 
